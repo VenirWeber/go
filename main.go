@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"C:\Users\Denchik\goprj\src\list\storage\list.go"
+	"https://github.com/VenirWeber/listgo/blob/main/storage/list.go"
 )
 
 func main() {
