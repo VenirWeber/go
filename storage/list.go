@@ -155,19 +155,38 @@ func (l *List) GetAllByValue(value int64) (ids []int64, ok bool) {
 	если элементы с указанным значением не найдены*/
 } // Возвращает индексы всех найденных элементов по значению
 
-// GetAll возвращает все элементы списка
-//
-// Если список пуст, то возвращается nil и false.
 func (l *List) GetAll() (values []int64, ok bool) {
-	return
-}
+	if l.len == 0 {
+		return nil, false // Возвращаем nil и false, если список пуст
+	}
 
-// Clear очищает список
+	values = make([]int64, l.len)
+	current := l.firstNode
+	index := 0
+
+	for current != nil {
+		values[index] = current.value
+		current = current.next
+		index++
+	}
+
+	return values, true
+} // Возвращает все элементы списка
+
 func (l *List) Clear() {
+	l.firstNode = nil
+	l.len = 0
+} // Очищает список
 
-}
-
-// Print выводит список в консоль
 func (l *List) Print() {
+	current := l.firstNode
 
-}
+	fmt.Print("Список: ")
+
+	for current != nil {
+		fmt.Printf("%v ", current.value)
+		current = current.next
+	}
+
+	fmt.Println()
+} // Выводит список в консоль
