@@ -1,24 +1,26 @@
 package list
 
+import "fmt"
+
 type List struct {
 	len       int64
 	firstNode *node
 }
 
-func NewList() *List {
+func NewList() (l *List) {
 	newList := &List{}
 	return newList
-} // создаётся новый список и возвращает указатель
+} // Создаётся новый список и возвращает указатель
 
 func (l *List) Len() (len int64) {
 	return l.len
-} // возращает длину списка, которая хранится в поле len структуры List
+} // Возращает длину списка, которая хранится в поле len структуры List
 
 func (l *List) Add(value int64) (id int64) {
 	newNode := &node{
 		value: value,
 		next:  nil,
-	} /* создаем новый узел с заданным значением value
+	} /* Создаем новый узел с заданным значением value
 	и добавляем его в конец списка. */
 
 	if l.firstNode == nil {
@@ -36,7 +38,7 @@ func (l *List) Add(value int64) (id int64) {
 	l.len++
 	return l.len - 1 /* Возвращает индекс добавленного элемента,
 	который равен текущей длине списка - 1 (т.к. индексация начинается с 0).*/
-} // добавляет элемент в список и возвращает его индекс
+} // Добавляет элемент в список и возвращает его индекс
 
 func (l *List) RemoveByIndex(id int64) {
 	if id < 0 || id >= l.len {
@@ -56,9 +58,9 @@ func (l *List) RemoveByIndex(id int64) {
 		current.next = current.next.next
 	}
 
-	l.len-- /* удаляем элемент из списка, обновляя указатели
+	l.len-- /* Удаляем элемент из списка, обновляя указатели
 	узлов таким образом, чтобы исключить удаляемый элемент.*/
-} // удаляет элемент из списка по индексу
+} // Удаляет элемент из списка по индексу
 
 func (l *List) RemoveByValue(value int64) {
 	if l.len == 0 {
@@ -83,7 +85,7 @@ func (l *List) RemoveByValue(value int64) {
 	// Удаляем элемент, переназначая указатель на следующий узел
 	current.next = current.next.next
 	l.len--
-} // удаляение элемента из списка по значению
+} // Удаление элемента из списка по значению
 
 func (l *List) RemoveAllByValue(value int64) {
 	if l.len == 0 {
@@ -181,10 +183,16 @@ func (l *List) Clear() {
 func (l *List) Print() {
 	current := l.firstNode
 
-	fmt.Print("Список: ")
+	fmt.Print("Список: \n")
+	index := 0
 
 	for current != nil {
-		fmt.Printf("%v ", current.value)
+		fmt.Print("id =")
+		fmt.Printf("%v  ", index)
+		fmt.Print("значение =")
+		fmt.Printf("%v  ", current.value)
+		fmt.Print("\n")
+		index++
 		current = current.next
 	}
 
