@@ -20,8 +20,7 @@ func (l *List) Add(value int64) (id int64) {
 	newNode := &node{
 		value: value,
 		next:  nil,
-	} /* Создаем новый узел с заданным значением value
-	и добавляем его в конец списка. */
+	} // Создаем новый узел с заданным значением value и добавляем его в конец списка.
 
 	if l.firstNode == nil {
 		l.firstNode = newNode
