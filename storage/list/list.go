@@ -174,9 +174,9 @@ func (l *List) Print() {
 	index := 0
 
 	for current != nil {
-		fmt.Print("id =")
+		fmt.Print("id = ")
 		fmt.Printf("%v  ", index)
-		fmt.Print("значение =")
+		fmt.Print("значение = ")
 		fmt.Printf("%v  ", current.value)
 		fmt.Print("\n")
 		index++
