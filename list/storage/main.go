@@ -1,6 +1,6 @@
 package main
 
-import list "list/storage/list"
+import "list/storage/list"
 
 func main() {
 	l := list.NewList()
