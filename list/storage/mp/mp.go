@@ -1,138 +1,97 @@
 package mp
 
-import (
-	"fmt"
-	"strconv"
-)
+import "fmt"
 
 type Map struct {
-	data map[string]interface{}
+	key int64
+	mp  map[int64]int64
 }
 
-// создание Map с ключами строкового типа и значениями интерфейсного типа
 func NewMap() *Map {
 	return &Map{
-		data: make(map[string]interface{}),
+		mp: make(map[int64]int64),
 	}
 }
 
-// Len возвращает длину Map
 func (mp *Map) Len() int64 {
-	return int64(len(mp.data))
+	return int64(len(mp.mp))
 }
 
-// Add добавляет элемент в Map и возвращает его ключ
-func (mp *Map) Add(value string) int64 {
-	key := int64(len(mp.data))
-	mp.data[fmt.Sprint(key)] = value
-	return key
+func (mp *Map) Add(value int64) int64 {
+	mp.key++
+	mp.mp[mp.key] = value
+	return mp.key
 } 
 
-// RemoveByIndex удаляет элемент из Map по ключу
-func (mp *Map) RemoveByKey(key int64) {
-	delete(mp.data, fmt.Sprint(key))
+func (mp *Map) RemoveByIndex(key int64) {
+	delete(mp.mp, key)
 }
 
-// RemoveByValue удаляет элемент из Map по значению
-func (mp *Map) RemoveByValue(value string) {
-	for key, val := range mp.data {
-		if val == value {
-			delete(mp.data, key)
+func (mp *Map) RemoveByValue(value int64) {
+	for key, v := range mp.mp {
+		if v == value {
+			delete(mp.mp, key)
 			return 
 		}
 	}
-}
-
-// RemoveAllByValue удаляет все элементы из Map по значению
-func (mp *Map) RemoveAllByValue(value string) {
-	keysToRemove := make([]string, 0)
-
-	for key, val := range mp.data {
-		if val == value {
-			keysToRemove = append(keysToRemove, key)
-		}
-	}
-
-	for _, key := range keysToRemove {
-		delete(mp.data, key)
-	}
 } 
 
-// GetByKey возвращает значение элемента по ключу.
-//
-// Если элемента с таким ключом нет, то возвращается 0 и false.
-func (mp *Map) GetByKey(key int64) (value string, ok bool) {
-	val, found := mp.data[fmt.Sprint(key)]
-	if !found {
-		return "0", false
+func (mp *Map) RemoveAllByValue(value int64) {
+	for key, v := range mp.mp {
+		if v == value {
+			delete(mp.mp, key)
+		}
 	}
-	value, ok = val.(string)
+}
+
+func (mp *Map) GetByKey(key int64) (int64, bool) {
+	value, ok := mp.mp[key]
 	return value, ok
 } 
 
-// GetByValue возвращает ключ первого найденного элемента по значению.
-//
-// Если элемента с таким значением нет, то возвращается 0 и false.
-func (mp *Map) GetByValue(value string) (key int64, ok bool) {
-	for k, v := range mp.data {
-		if vStr, isString := v.(string); isString && vStr == value {
-			key, ok = parseKey(k)
-			return
+func (mp *Map) GetByValue(value int64) (int64, bool) {
+	for key, v := range mp.mp {
+		if v == value {
+			return key, true
 		}
 	}
 	return 0, false
 } 
 
-// Функция parseKey используется для преобразования строки в int64.
-func parseKey(keyStr string) (int64, bool) {
-	key, err := strconv.ParseInt(keyStr, 10, 64)
-	if err != nil {
-		return 0, false
-	}
-	return key, true
-}
-
-// GetAllByValue возвращает индексы всех найденных элементов по значению
-//
-// Если элементов с таким значением нет, то возвращается nil и false.
-func (mp *Map) GetAllByValue(value string) (ids []int64, ok bool) {
-	for k, v := range mp.data {
-		if vStr, isString := v.(string); isString && vStr == value {
-			key, parseOk := parseKey(k)
-			if parseOk {
-				ids = append(ids, key)
-			}
+func (mp *Map) GetAllByValue(value int64) ([]int64, bool) {
+	var ids []int64
+	for key, v := range mp.mp {
+		if v == value {
+			ids = append(ids, key)
 		}
 	}
-	return ids, len(ids) > 0
-}
+	if len(ids) > 0 {
+		return ids, true
+	}
+	return nil, false
+} 
 
-// GetAll возвращает все элементы списка
-//
-// Если список пуст, то возвращается nil и false.
-func (mp *Map) GetAll() (values []string, ok bool) {
-	if len(mp.data) == 0 {
+func (mp *Map) GetAll() ([]int64, bool) {
+	if len(mp.mp) == 0 {
 		return nil, false
 	}
 
-	for _, v := range mp.data {
-		if vStr, isString := v.(string); isString {
-			values = append(values, vStr)
-		}
+	var values []int64
+	for _, v := range mp.mp {
+		values = append(values, v)
 	}
 
 	return values, true
-}
+} 
 
-// Clear очищает Map
 func (mp *Map) Clear() {
-	mp.data = make(map[string]interface{})
+	mp.mp = make(map[int64]int64)
 }
 
-// Print выводит Map в консоль
 func (mp *Map) Print() {
-	fmt.Print("Вывод Map: \n")
-	for key, value := range mp.data {
-		fmt.Printf("Ключ: %s, Значение: %v\n", key, value)
+	fmt.Println("Содержимое Map:")
+	for key, value := range mp.mp {
+		fmt.Printf("Ключ: %d, Значение: %d;\n", key, value)
 	}
 }
+
