@@ -8,9 +8,10 @@ type Map struct {
 }
 
 func NewMap() *Map {
-	return &Map{
-		mp: make(map[int64]int64),
-	}
+    newMap := &Map{
+        mp: make(map[int64]int64),
+    }
+    return newMap
 }
 
 func (mp *Map) Len() int64 {
