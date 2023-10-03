@@ -1,6 +1,9 @@
 package main
 
-import "list/storage/list"
+import (
+	"list/storage/list"
+	"list/storage/mp"
+)
 
 func main() {
 	l := list.NewList()
@@ -9,5 +12,12 @@ func main() {
 	l.Add(13)
 	l.Add(14)
 	l.RemoveByIndex(3)
-	l.Print()
+
+	m := mp.NewMap()
+	m.Add(100)
+	m.Add(200)
+	m.Add(300)
+
+	m.Print()
+
 }
