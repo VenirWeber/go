@@ -2,6 +2,7 @@ package mp
 
 import (
 	"fmt"
+	"sort"
 )
 
 type Map struct {
@@ -30,7 +31,7 @@ func (mp *Map) Add(value int64) int64 {
 } 
 
 
-func (mp *Map) RemoveByIndex(key int64) {
+func (mp *Map) RemoveByKey(key int64) {
 	delete(mp.mp, key)
 } 
 
@@ -103,8 +104,20 @@ func (mp *Map) Clear() {
 
 
 func (mp *Map) Print() {
+	var keys []int64
+
+	for key := range mp.mp {
+		keys = append(keys, key)
+	}
+
+	sort.Slice(keys, func(i, j int) bool {
+		return keys[i] < keys[j]
+	})
+
 	fmt.Println("Содержимое Map:")
-	for key, value := range mp.mp {
+
+	for _, key := range keys {
+		value := mp.mp[key]
 		fmt.Printf("Ключ: %d, Значение: %d\n", key, value)
 	}
 }
