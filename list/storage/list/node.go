@@ -1,4 +1,4 @@
-package list
+package lis
 
 type node struct {
 	index int64
