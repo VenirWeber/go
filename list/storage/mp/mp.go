@@ -1,41 +1,49 @@
 package mp
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Map struct {
-	key int64
-	mp  map[int64]int64
+	id int64
+	mp map[int64]int64
 }
 
+
 func NewMap() *Map {
-    newMap := &Map{
-        mp: make(map[int64]int64),
-    }
-    return newMap
+	return &Map{
+		mp: make(map[int64]int64),
+	}
 }
+
 
 func (mp *Map) Len() int64 {
 	return int64(len(mp.mp))
 }
 
+
 func (mp *Map) Add(value int64) int64 {
-	mp.key++
-	mp.mp[mp.key] = value
-	return mp.key
+	mp.id++
+	key := mp.id
+	mp.mp[key] = value
+	return key
 } 
+
 
 func (mp *Map) RemoveByIndex(key int64) {
 	delete(mp.mp, key)
-}
+} 
+
 
 func (mp *Map) RemoveByValue(value int64) {
 	for key, v := range mp.mp {
 		if v == value {
 			delete(mp.mp, key)
-			return 
+			break 
 		}
 	}
 } 
+
 
 func (mp *Map) RemoveAllByValue(value int64) {
 	for key, v := range mp.mp {
@@ -43,7 +51,8 @@ func (mp *Map) RemoveAllByValue(value int64) {
 			delete(mp.mp, key)
 		}
 	}
-}
+} 
+
 
 func (mp *Map) GetByKey(key int64) (int64, bool) {
 	value, ok := mp.mp[key]
@@ -59,6 +68,7 @@ func (mp *Map) GetByValue(value int64) (int64, bool) {
 	return 0, false
 } 
 
+
 func (mp *Map) GetAllByValue(value int64) ([]int64, bool) {
 	var ids []int64
 	for key, v := range mp.mp {
@@ -71,6 +81,7 @@ func (mp *Map) GetAllByValue(value int64) ([]int64, bool) {
 	}
 	return nil, false
 } 
+
 
 func (mp *Map) GetAll() ([]int64, bool) {
 	if len(mp.mp) == 0 {
@@ -85,14 +96,17 @@ func (mp *Map) GetAll() ([]int64, bool) {
 	return values, true
 } 
 
+
 func (mp *Map) Clear() {
 	mp.mp = make(map[int64]int64)
 }
 
+
 func (mp *Map) Print() {
 	fmt.Println("Содержимое Map:")
 	for key, value := range mp.mp {
-		fmt.Printf("Ключ: %d, Значение: %d;\n", key, value)
+		fmt.Printf("Ключ: %d, Значение: %d\n", key, value)
 	}
 }
+
 
