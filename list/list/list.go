@@ -58,6 +58,11 @@ func (l *List) Add(value int64) int64 {
 
 // Удаляет элемент из списка по индексу
 func (l *List) RemoveByIndex(index int64) error {
+	if l.len == 0 {
+		fmt.Printf("Error: %v\n", ErrListEmpty)
+		return ErrListEmpty
+	}
+
 	if index < 0 || index >= l.len {
 		fmt.Printf("Error: %v\n", ErrIndexOutOfRange)
 		return ErrIndexOutOfRange
@@ -159,6 +164,11 @@ func (l *List) RemoveAllByValue(value int64) error {
 
 // Возвращает значение элемента по индексу.
 func (l *List) GetByIndex(index int64) (int64, error) {
+	if l.len == 0 {
+		fmt.Printf("Error: %v\n", ErrListEmpty)
+		return 0, ErrListEmpty
+	}
+
 	if index < 0 || index >= l.len {
 		fmt.Printf("Error: %v\n", ErrIndexOutOfRange)
 		return 0, ErrIndexOutOfRange
@@ -175,6 +185,10 @@ func (l *List) GetByIndex(index int64) (int64, error) {
 
 // Возвращает индекс первого найденного элемента по значению.
 func (l *List) GetByValue(value int64) (int64, error) {
+	if l.len == 0 {
+		fmt.Printf("Error: %v\n", ErrListEmpty)
+		return 0, ErrListEmpty
+	}
 	current := l.firstNode
 	index := int64(0)
 
@@ -194,6 +208,10 @@ func (l *List) GetByValue(value int64) (int64, error) {
 
 // Возвращает индексы всех найденных элементов по значению
 func (l *List) GetAllByValue(value int64) ([]int64, error) {
+	if l.len == 0 {
+		fmt.Printf("Error: %v\n", ErrListEmpty)
+		return nil, ErrListEmpty
+	}
 	current := l.firstNode
 	var ids []int64
 	for index := int64(0); current != nil; index++ {
@@ -210,14 +228,13 @@ func (l *List) GetAllByValue(value int64) ([]int64, error) {
 
 	fmt.Printf("Error: %v\n", ErrValueOutOfRange)
 	return nil, ErrValueOutOfRange
-	/* Возвращаем nil и ошибку, если элементы с указанным значением не найдены */
 }
 
 // Возвращает все элементы списка
 func (l *List) GetAll() ([]int64, error) {
 	if l.len == 0 {
 		fmt.Printf("Error: %v\n", ErrListEmpty)
-		return nil, ErrListEmpty // Возвращаем nil и false, если список пуст
+		return nil, ErrListEmpty
 	}
 
 	var values = make([]int64, l.len)
