@@ -47,6 +47,10 @@ func (mp *Map) Add(value int64) int64 {
 
 // RemoveByKey удаляет элемент из Map по ключу
 func (mp *Map) RemoveByKey(key int64) error {
+	if len(mp.mp) == 0 {
+		fmt.Printf("Error: %v\n", ErrMapEmpty)
+		return ErrMapEmpty
+	}
 	if _, exists := mp.mp[key]; !exists {
 		fmt.Printf("Error: %v\n", ErrKeyOutOfRange)
 		return ErrKeyOutOfRange
@@ -58,6 +62,10 @@ func (mp *Map) RemoveByKey(key int64) error {
 
 // RemoveByValue удаляет элемент из Map по значению
 func (mp *Map) RemoveByValue(value int64) error {
+	if len(mp.mp) == 0 {
+		fmt.Printf("Error: %v\n", ErrMapEmpty)
+		return ErrMapEmpty
+	}
 	var keyToDelete int64
 	found := false
 	for key, v := range mp.mp {
@@ -78,6 +86,10 @@ func (mp *Map) RemoveByValue(value int64) error {
 
 // RemoveAllByValue удаляет все элементы из Map по значению
 func (mp *Map) RemoveAllByValue(value int64) error {
+	if len(mp.mp) == 0 {
+		fmt.Printf("Error: %v\n", ErrMapEmpty)
+		return ErrMapEmpty
+	}
 	var deletedKeys []int64
 	for key, v := range mp.mp {
 		if v == value {
@@ -97,6 +109,10 @@ func (mp *Map) RemoveAllByValue(value int64) error {
 //
 // Если элемента с таким ключом нет, то возвращается 0 и false.
 func (mp *Map) GetByKey(key int64) (int64, error) {
+	if len(mp.mp) == 0 {
+		fmt.Printf("Error: %v\n", ErrMapEmpty)
+		return 0, ErrMapEmpty
+	}
 	value, ok := mp.mp[key]
 	if !ok {
 		fmt.Printf("Error: %v\n", ErrKeyOutOfRange)
@@ -109,6 +125,10 @@ func (mp *Map) GetByKey(key int64) (int64, error) {
 //
 // Если элемента с таким значением нет, то возвращается 0 и false.
 func (mp *Map) GetByValue(value int64) (int64, error) {
+	if len(mp.mp) == 0 {
+		fmt.Printf("Error: %v\n", ErrMapEmpty)
+		return 0, ErrMapEmpty
+	}
 	for key, v := range mp.mp {
 		if v == value {
 			fmt.Printf("Элемент с ключом %d и значением %d найден\n", key, value)
@@ -123,6 +143,10 @@ func (mp *Map) GetByValue(value int64) (int64, error) {
 //
 // Если элементов с таким значением нет, то возвращается nil и false.
 func (mp *Map) GetAllByValue(value int64) ([]int64, error) {
+	if len(mp.mp) == 0 {
+		fmt.Printf("Error: %v\n", ErrMapEmpty)
+		return nil, ErrMapEmpty
+	}
 	var keys []int64
 	for key, v := range mp.mp {
 		if v == value {
