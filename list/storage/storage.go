@@ -160,6 +160,3 @@ func (s *Storage) Print() {
 	}
 	fmt.Println()
 }
-func (s *Storage) Print() {
-	fmt.Println(s.data)
-}
